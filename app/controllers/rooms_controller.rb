@@ -14,7 +14,23 @@ class RoomsController < ApplicationController
 
   # GET /rooms/new
   def new
+    check_if_profile_complete
     @room = Room.new
+  end
+
+  def check_if_profile_complete
+    if current_user.nil?
+      flash[:error] = "Your didn't login yet, pls login to proceed !!"
+      redirect_to root_path
+      return false
+    end
+    # @attr = Profile.where("name like ?", "%#{current_user.name[0,2]}%")
+    # @status = @attr.all? {|k,v| !v.nil?}
+    #   if !@status
+    #     flash[:error] = "Your profile is incomplete, update it !!"
+    #     redirect_to profiles_path
+    #     return false
+    #   end
   end
 
   # GET /rooms/1/edit
@@ -25,7 +41,11 @@ class RoomsController < ApplicationController
   # POST /rooms.json
   def create
     @room = Room.new(room_params)
-
+    image1=params[:room][:photo]
+    if !image1.nil? then
+      image1=params[:room][:photo].original_filename
+      @room.photo = image1
+    end
     respond_to do |format|
       if @room.save
         format.html { redirect_to @room, notice: 'Room was successfully created.' }
@@ -62,13 +82,20 @@ class RoomsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_room
-      @room = Room.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_room
+    @room = Room.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def room_params
-      params.require(:room).permit(:office_type, :accomodate, :no_of_seats, :no_of_additional_rooms, :isfeature, :location, :listing_name, :listing_summary, :listing_address, :photo, :isinternet, :iscanteen, :issportsroom, :ismediation, :isparking, :ispowerbackup, :isauditorium)
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def room_params
+    image1=params[:room][:photo]
+    if !image1.nil? then
+      image1=params[:room][:photo].original_filename
+      directory = "public/PostImages"
+      path = File.join(directory, image1)
+      File.open(path, "wb") { |f| f.write(params[:room][:photo].read) }
     end
+    params.require(:room).permit(:office_type, :accomodate, :no_of_seats, :no_of_additional_rooms, :isfeatured, :location, :listing_name, :listing_summary, :listing_address, :photo, :isinternet, :iscanteen, :issportsroom, :ismediationhall, :ispowerbackup, :isparking, :isauditorium)
+  end
 end
