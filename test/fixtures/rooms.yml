@@ -1,0 +1,39 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  office_type: MyString
+  accomodate: MyString
+  no_of_seats: MyString
+  no_of_additional_rooms: MyString
+  isfeature: false
+  location: MyString
+  listing_name: MyString
+  listing_summary: MyString
+  listing_address: MyString
+  photo: MyString
+  isinternet: false
+  iscanteen: false
+  issportsroom: false
+  ismediation: false
+  isparking: false
+  ispowerbackup: false
+  isauditorium: false
+
+two:
+  office_type: MyString
+  accomodate: MyString
+  no_of_seats: MyString
+  no_of_additional_rooms: MyString
+  isfeature: false
+  location: MyString
+  listing_name: MyString
+  listing_summary: MyString
+  listing_address: MyString
+  photo: MyString
+  isinternet: false
+  iscanteen: false
+  issportsroom: false
+  ismediation: false
+  isparking: false
+  ispowerbackup: false
+  isauditorium: false
