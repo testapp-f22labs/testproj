@@ -2,8 +2,13 @@ Rails.application.routes.draw do
   resources :profiles
   resources :rooms
   get 'welcome/index'
-
   get 'welcome/user_detail'
+  root 'welcome#index'
+
+  get 'auth/:provider/callback', to: 'sessions#create'
+  get 'auth/failure', to: redirect('/')
+  get 'auth/:provider/callback', to: 'sessions#oauth_failure'
+  delete 'signout', to: 'sessions#destroy', as: 'signout'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
